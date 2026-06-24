@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deltaria Web Server - Dashboard Admin</title>
+    <style>
+        /* Reset & Base Style */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #0f111a;
+            color: #e2e8f0;
+            line-height: 1.6;
+        }
+
+        /* Top Navigation */
+        header {
+            background-color: #161925;
+            padding: 15px 30px;
+            border-bottom: 2px solid #23293f;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: #38bdf8;
+            letter-spacing: 1px;
+        }
+        .server-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            background: #1e293b;
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid #334155;
+        }
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background-color: #10b981;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #10b981;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1300px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        /* Welcome Banner */
+        .welcome-banner {
+            background: linear-gradient(135deg, #1e1b4b 0%, #1e293b 100%);
+            border: 1px solid #312e81;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+        .welcome-banner h1 {
+            font-size: 26px;
+            margin-bottom: 8px;
+            color: #f8fafc;
+        }
+
+        /* Grid Layout for Cards */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background-color: #161925;
+            border: 1px solid #23293f;
+            border-radius: 10px;
+            padding: 20px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            border-color: #38bdf8;
+        }
+        .card h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #94a3b8;
+            border-bottom: 1px solid #23293f;
+            padding-bottom: 8px;
+        }
+
+        /* Console/Log Style Component */
+        .console-box {
+            background-color: #090a0f;
+            border: 1px solid #1e293b;
+            border-radius: 6px;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 15px;
+            height: 180px;
+            overflow-y: auto;
+            font-size: 13px;
+            color: #a7f3d0;
+        }
+        .console-line {
+            margin-bottom: 6px;
+        }
+        .console-line .time { color: #64748b; }
+        .console-line .info { color: #38bdf8; }
+
+        /* Button & Forms */
+        .btn {
+            background-color: #38bdf8;
+            color: #0f111a;
+            border: none;
+            padding: 10px 18px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background-color: #7dd3fc;
+        }
+        .btn-danger {
+            background-color: #ef4444;
+            color: white;
+        }
+        .btn-danger:hover {
+            background-color: #f87171;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
+            color: #475569;
+            font-size: 13px;
+            border-top: 1px solid #161925;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <header>
+        <div class="logo">DELTARIA // WEB</div>
+        <div class="server-status">
+            <div class="status-dot"></div>
+            <span>Server Online</span>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        
+        <!-- Banner Utama -->
+        <div class="welcome-banner">
+            <h1>Selamat Datang di Deltaria Web Server</h1>
+            <p style="color: #94a3b8;">Sistem manajemen internal dan monitoring ekosistem backend terintegrasi.</p>
+        </div>
+
+        <!-- Grid Kontrol & Monitor -->
+        <div class="grid">
+            
+            <!-- Card 1: Informasi Sistem -->
+            <div class="card">
+                <h3>Spesifikasi & Status</h3>
+                <p><strong>Core Engine:</strong> Paper / Java Environment</p>
+                <p><strong>Status Protokol:</strong> REST API Active</p>
+                <p><strong>Alokasi Node:</strong> Containerized (Docker)</p>
+                <button class="btn" onclick="checkSystem()">Jalankan Diagnostik</button>
+            </div>
+
+            <!-- Card 2: Konsol Log Singkat -->
+            <div class="card">
+                <h3>Live Server Log</h3>
+                <div class="console-box" id="consoleBox">
+                    <div class="console-line"><span class="time">[07:00:01]</span> <span class="info">[INFO]</span> Deltaria HTTP Core initialized successfully.</div>
+                    <div class="console-line"><span class="time">[07:00:03]</span> <span class="info">[INFO]</span> Binding listener to port 0.0.0.0...</div>
+                    <div class="console-line"><span class="time">[07:05:12]</span> <span class="info">[SUCCESS]</span> Database handshake complete.</div>
+                </div>
+                <button class="btn" onclick="clearLogs()">Bersihkan Tampilan Log</button>
+            </div>
+
+            <!-- Card 3: Kendali Server -->
+            <div class="card">
+                <h3>Aksi Cepat</h3>
+                <p style="margin-bottom: 12px; color: #64748b;">Gunakan dengan hati-hati. Aksi ini langsung memengaruhi runtime daemon backend.</p>
+                <button class="btn" style="background-color: #10b981; color: white;" onclick="triggerAction('Reload')">Reload Konfigurasi</button>
+                <button class="btn btn-danger" onclick="triggerAction('Restart')">Restart Daemon</button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2026 Deltaria Ecosystem. All rights reserved. Powered by Pterodactyl Daemon.
+    </footer>
+
+    <!-- Logika Interaktif Sederhana -->
+    <script>
+        function checkSystem() {
+            alert("Memulai peninjauan alokasi memori dan integritas database Deltaria...");
+        }
+
+        function clearLogs() {
+            document.getElementById('consoleBox').innerHTML = '<div class="console-line" style="color: #64748b;">Log dikosongkan oleh admin.</div>';
+        }
+
+        function triggerAction(actionName) {
+            let konfirmasi = confirm("Apakah kamu yakin ingin melakukan " + actionName + " pada Deltaria Web Server?");
+            if (konfirmasi) {
+                alert("Perintah " + actionName + " berhasil dikirim ke konsol daemon backend.");
+            }
+        }
+    </script>
+</body>
+</html>
